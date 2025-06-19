@@ -13,18 +13,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 1rem;
     }
     h1 {
-      font-size: 3rem;
+      font-size: 2.2rem;
       margin-bottom: 0.5rem;
       color: #222;
+      text-align: center;
     }
     .subtext {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
       text-align: center;
       color: #555;
     }
@@ -32,20 +33,22 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
       font-weight: bold;
       color: #444;
     }
     .dates div {
       background: #ffe5b4;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 10px;
+      font-size: 0.9rem;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .carousel {
-      max-width: 90vw;
-      max-height: 60vh;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
       overflow: hidden;
       border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -55,6 +58,7 @@
       width: 100%;
       height: auto;
       display: none;
+      border-radius: 20px;
     }
     .carousel img.active {
       display: block;
@@ -75,29 +79,42 @@
     <div>24-4-15</div>
   </div>
 
-  <div class="carousel">
-    <img src="https://picsum.photos/id/1011/800/600" class="active" alt="Foto 1">
-    <img src="https://picsum.photos/id/1015/800/600" alt="Foto 2">
-    <img src="https://picsum.photos/id/1021/800/600" alt="Foto 3">
-    <img src="https://picsum.photos/id/1033/800/600" alt="Foto 4">
+  <div class="carousel" id="carousel">
+    <!-- Imágenes se insertarán automáticamente con JS -->
   </div>
 
   <script>
-    const images = Array.from(document.querySelectorAll('.carousel img'));
-    let current = 0;
+    const totalImages = 31;
+    const imageFolder = 'img/';
+    const imageBaseName = 'PHOTO-';
+    const imageExt = '.jpg';
 
-    // Desordenar las imágenes aleatoriamente
+    // Generar array con los nombres de las fotos
+    const images = Array.from({length: totalImages}, (_, i) => `${imageFolder}${imageBaseName}${i + 1}${imageExt}`);
+
+    // Aleatorizar el orden
     for (let i = images.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [images[i].src, images[j].src] = [images[j].src, images[i].src];
+      [images[i], images[j]] = [images[j], images[i]];
     }
 
+    // Insertar imágenes en el HTML
+    const carousel = document.getElementById('carousel');
+    images.forEach((src, index) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Foto ${index + 1}`;
+      if (index === 0) img.classList.add('active');
+      carousel.appendChild(img);
+    });
+
+    const imgElements = document.querySelectorAll('#carousel img');
+    let current = 0;
     function showNext() {
-      images[current].classList.remove('active');
-      current = (current + 1) % images.length;
-      images[current].classList.add('active');
+      imgElements[current].classList.remove('active');
+      current = (current + 1) % imgElements.length;
+      imgElements[current].classList.add('active');
     }
-
     setInterval(showNext, 4000);
   </script>
 </body>
