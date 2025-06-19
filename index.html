@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIKAS - Familia</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdfcfb;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      color: #222;
+    }
+    .subtext {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #555;
+    }
+    .dates {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      font-weight: bold;
+      color: #444;
+    }
+    .dates div {
+      background: #ffe5b4;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .carousel {
+      max-width: 90vw;
+      max-height: 60vh;
+      overflow: hidden;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+      display: none;
+    }
+    .carousel img.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>HIKAS</h1>
+  <div class="subtext">
+    Nuestra historia está tejida con amor, risas y días que dejaron huella.<br>
+    Porque cada fecha guarda un ‘te quiero’ eterno.
+  </div>
+
+  <div class="dates">
+    <div>18-8-81</div>
+    <div>5-3-79</div>
+    <div>29-8-5</div>
+    <div>24-4-15</div>
+  </div>
+
+  <div class="carousel">
+    <img src="https://picsum.photos/id/1011/800/600" class="active" alt="Foto 1">
+    <img src="https://picsum.photos/id/1015/800/600" alt="Foto 2">
+    <img src="https://picsum.photos/id/1021/800/600" alt="Foto 3">
+    <img src="https://picsum.photos/id/1033/800/600" alt="Foto 4">
+  </div>
+
+  <script>
+    const images = Array.from(document.querySelectorAll('.carousel img'));
+    let current = 0;
+
+    // Desordenar las imágenes aleatoriamente
+    for (let i = images.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [images[i].src, images[j].src] = [images[j].src, images[i].src];
+    }
+
+    function showNext() {
+      images[current].classList.remove('active');
+      current = (current + 1) % images.length;
+      images[current].classList.add('active');
+    }
+
+    setInterval(showNext, 4000);
+  </script>
+</body>
+</html>
